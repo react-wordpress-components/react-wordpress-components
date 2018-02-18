@@ -10,6 +10,7 @@ env:
   - GH_REF: wreact/wreact
 
 script:
+  - npm run build
   - npm run lint
   - npm test
 
