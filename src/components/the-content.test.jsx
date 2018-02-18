@@ -6,7 +6,6 @@ import TheContent from './the-content'
 describe('test of `<TheContent />` component', () => {
   it('should render content', () => {
     const data = {
-      type: 'post',
       value: {
         content: {
           rendered: '<p>My Content</p>',

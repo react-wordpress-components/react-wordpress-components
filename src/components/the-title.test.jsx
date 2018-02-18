@@ -6,7 +6,6 @@ import TheTitle from './the-title'
 describe('test of `<TheTitle />` component', () => {
   it('should render title', () => {
     const data = {
-      type: 'post',
       value: {
         title: {
           rendered: 'My Title',

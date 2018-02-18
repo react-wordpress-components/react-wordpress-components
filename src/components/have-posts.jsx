@@ -12,7 +12,6 @@ class HavePosts extends React.PureComponent {
    */
   static propTypes = {
     endpoint: PropTypes.string.isRequired,
-    postType: PropTypes.string,
     version: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -25,7 +24,6 @@ class HavePosts extends React.PureComponent {
    * @type {object}
    */
   static defaultProps = {
-    postType: 'post',
     version: 'v2',
     children: [],
   }
@@ -37,7 +35,7 @@ class HavePosts extends React.PureComponent {
    */
   constructor(props) {
     super(props)
-    this.state = { posts: [], type: '' }
+    this.state = { posts: [] }
   }
 
   /**
@@ -45,11 +43,11 @@ class HavePosts extends React.PureComponent {
    * @return {void}
    */
   componentWillMount() {
-    const { endpoint, version, postType } = this.props
-    const url = `${endpoint}/wp-json/wp/${version}/${this.toPlural(postType)}`
+    const { endpoint, version } = this.props
+    const url = `${endpoint}/wp-json/wp/${version}/posts}`
     fetch(url)
       .then(res => res.json())
-      .then(posts => this.setState({ posts, type: postType }))
+      .then(posts => this.setState({ posts }))
   }
 
   /**
@@ -60,13 +58,13 @@ class HavePosts extends React.PureComponent {
   toPlural = postType => `${postType}s`
 
   render() {
-    const { posts, type } = this.state
+    const { posts } = this.state
     return posts.map(post => {
       const child = React.Children.only(this.props.children)
 
-      if (child.type.templateTagName === 'the_post' && type === 'post') {
+      if (child.type.templateTagName === 'the_post') {
         return React.cloneElement(child, {
-          data: { type, value: post },
+          data: { value: post },
           key: post.id,
         })
       } else {

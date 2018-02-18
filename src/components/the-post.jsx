@@ -10,7 +10,6 @@ class ThePost extends React.PureComponent {
    */
   static propTypes = {
     data: PropTypes.shape({
-      type: PropTypes.string.isRequired,
       value: PropTypes.object.isRequired,
     }),
     children: PropTypes.oneOfType([
@@ -24,7 +23,7 @@ class ThePost extends React.PureComponent {
    * @type {object}
    */
   static defaultProps = {
-    data: { type: '', value: {} },
+    data: { value: {} },
     children: [],
   }
 

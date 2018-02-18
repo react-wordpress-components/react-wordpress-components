@@ -4,6 +4,7 @@
 --require react-dom/test-utils
 
 ./test/helpers/enzyme.js
+./test/helpers/mock-fetch.js
 
 ./src/**/*.test.js
 ./src/**/*.test.jsx
