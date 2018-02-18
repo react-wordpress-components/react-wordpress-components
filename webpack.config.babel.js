@@ -7,7 +7,6 @@ import path from 'path'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import meta from './package.json'
 
 const nodeEnv = process.env.NODE_ENV || 'development'
 const isDebugMode = process.env.DEBUG === 'true'
@@ -26,20 +25,14 @@ const devEntries = [
 
 const appEntries = ['./src/main.jsx']
 
-const vendorEntries = Object.keys(meta.dependencies).filter(
-  name => name !== 'font-awesome',
-)
-
 export default {
   entry: isDebugMode
     ? {
       app: appEntries,
-      vendor: vendorEntries,
       dev: devEntries,
     }
     : {
       app: appEntries,
-      vendor: vendorEntries,
     },
 
   output: {

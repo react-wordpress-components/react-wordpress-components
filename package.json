@@ -51,7 +51,7 @@
     "react-transform-hmr": "^1.0.4",
     "rimraf": "^2.5.4",
     "sinon": "^3.2.1",
-    "webpack": "^3.6.0",
+    "webpack": "^3.11.0",
     "webpack-dev-server": "^2.9.1"
   },
   "lint-staged": {
