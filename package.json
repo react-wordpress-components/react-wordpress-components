@@ -1,5 +1,5 @@
 {
-  "name": "wp-components",
+  "name": "wreact",
   "scripts": {
     "start": "./bin/start.sh",
     "build": "./bin/build.sh",
