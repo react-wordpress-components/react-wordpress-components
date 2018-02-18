@@ -34,7 +34,7 @@ describe('test of `<HavePosts />` component', () => {
         orderby: 'title',
       },
     }
-    const url = new HavePosts(props).buildUrl()
+    const url = HavePosts.buildUrl(props.endpoint, props.version, props.query)
     expect(url).to.be.equal(
       'http://example.com/wp-json/wp/v2/posts?per_page=5&orderby=title',
     )

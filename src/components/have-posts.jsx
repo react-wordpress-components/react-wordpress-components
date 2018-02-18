@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import deepEqual from 'deep-equal'
 
 /**
  * Have posts
@@ -30,6 +31,13 @@ class HavePosts extends React.PureComponent {
     query: {},
   }
 
+  static buildUrl = (endpoint, version, query) => {
+    const qs = Object.keys(query)
+      .map(key => `${key}=${query[key]}`)
+      .join('&')
+    return `${endpoint}/wp-json/wp/${version}/posts${qs ? '?' + qs : ''}`
+  }
+
   /**
    * constructor
    * @param  {object} props React props.
@@ -45,18 +53,26 @@ class HavePosts extends React.PureComponent {
    * @return {void}
    */
   componentWillMount() {
-    const url = this.buildUrl()
+    const { endpoint, version, query } = this.props
+    const url = HavePosts.buildUrl(endpoint, version, query)
     fetch(url)
       .then(res => res.json())
       .then(posts => this.setState({ posts }))
   }
 
-  buildUrl = () => {
-    const { endpoint, version, query } = this.props
-    const qs = Object.keys(query)
-      .map(key => `${key}=${query[key]}`)
-      .join('&')
-    return `${endpoint}/wp-json/wp/${version}/posts${qs ? '?' + qs : ''}`
+  /**
+   * componentWillReceiveProps
+   * @param  {object} nextProps React props.
+   * @return {void}
+   */
+  componentWillReceiveProps(nextProps) {
+    if (!deepEqual(this.props.query, nextProps.query)) {
+      const { endpoint, version, query } = nextProps
+      const url = HavePosts.buildUrl(endpoint, version, query)
+      fetch(url)
+        .then(res => res.json())
+        .then(posts => this.setState({ posts }))
+    }
   }
 
   render() {
