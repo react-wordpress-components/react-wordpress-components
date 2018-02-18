@@ -8,11 +8,11 @@ describe('`<TheTitle />`', () => {
     const props = {
       post: {
         title: {
-          rendered: 'My Title',
+          rendered: 'My <strong>Title</strong>',
         },
       },
     }
     const wrapper = shallow(<TheTitle { ...props } />)
-    expect(wrapper.text()).to.equal('My Title')
+    expect(wrapper.html()).to.contain('My <strong>Title</strong>')
   })
 })
