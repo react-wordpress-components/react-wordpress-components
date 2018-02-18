@@ -2,6 +2,7 @@ import React from 'react'
 import HavePosts from './components/have-posts'
 import ThePost from './components/the-post'
 import TheTitle from './components/the-title'
+import TheID from './components/the-id'
 import TheContent from './components/the-content'
 import styled from 'styled-components'
 
@@ -79,6 +80,10 @@ export class SampleApp extends React.PureComponent {
               <h1>
                 <TheTitle />
               </h1>
+              <p style={ { fontStyle: 'Italic' } }>
+                {'Post No.'}
+                <TheID />
+              </p>
             </header>
             <main>
               <TheContent />
