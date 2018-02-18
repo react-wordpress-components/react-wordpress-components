@@ -14,6 +14,6 @@ describe('test of `<TheContent />` component', () => {
       },
     }
     const wrapper = shallow(<TheContent data={ data } />)
-    expect(wrapper.html()).to.equal('<p>My Content</p>')
+    expect(wrapper.html()).to.contain('<p>My Content</p>')
   })
 })
