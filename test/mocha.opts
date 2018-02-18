@@ -1,0 +1,9 @@
+--require babel-core/register
+--recursive
+--reporter dot
+--require react-dom/test-utils
+
+./test/helpers/enzyme.js
+
+./src/**/*.test.js
+./src/**/*.test.jsx

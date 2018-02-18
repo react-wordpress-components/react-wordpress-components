@@ -1,0 +1,20 @@
+# vendors
+/node_modules
+
+# distribution package
+/dist
+/*.tar.gz
+/docs
+/packages
+
+# test results
+/.nyc_output
+/coverage
+
+# logs
+/logs
+*.log
+
+# cache
+.eslintcache
+.DS_Store
