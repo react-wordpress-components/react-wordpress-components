@@ -5,14 +5,12 @@ import TheContent from './the-content'
 
 describe('test of `<TheContent />` component', () => {
   it('should render content', () => {
-    const data = {
-      value: {
-        content: {
-          rendered: '<p>My Content</p>',
-        },
+    const post = {
+      content: {
+        rendered: '<p>My Content</p>',
       },
     }
-    const wrapper = shallow(<TheContent data={ data } />)
+    const wrapper = shallow(<TheContent post={ post } />)
     expect(wrapper.html()).to.contain('<p>My Content</p>')
   })
 })

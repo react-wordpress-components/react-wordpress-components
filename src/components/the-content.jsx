@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const TheContent = props => {
-  const {
-    data: { value: { content: { rendered: renderedContent = '' } = {} } = {} },
-  } = props
+  const { post: { content: { rendered: renderedContent = '' } = {} } } = props
 
   const innerHTML = { __html: renderedContent }
   // eslint-disable-next-line react/no-danger
@@ -12,17 +10,15 @@ const TheContent = props => {
 }
 
 TheContent.propTypes = {
-  data: PropTypes.shape({
-    value: PropTypes.shape({
-      content: PropTypes.shape({
-        rendered: PropTypes.string,
-      }),
+  post: PropTypes.shape({
+    content: PropTypes.shape({
+      rendered: PropTypes.string,
     }),
   }),
 }
 
 TheContent.defaultProps = {
-  data: {},
+  post: {},
 }
 
 export default TheContent

@@ -1,24 +1,20 @@
 import PropTypes from 'prop-types'
 
 export const TheTitle = props => {
-  const {
-    data: { value: { title: { rendered: renderedTitle = '' } = {} } = {} },
-  } = props
+  const { post: { title: { rendered: renderedTitle = '' } = {} } } = props
   return renderedTitle
 }
 
 TheTitle.propTypes = {
-  data: PropTypes.shape({
-    value: PropTypes.shape({
-      title: PropTypes.shape({
-        rendered: PropTypes.string,
-      }),
+  post: PropTypes.shape({
+    title: PropTypes.shape({
+      rendered: PropTypes.string,
     }),
   }),
 }
 
 TheTitle.defaultProps = {
-  data: {},
+  post: {},
 }
 
 export default TheTitle

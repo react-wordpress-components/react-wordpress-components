@@ -75,16 +75,17 @@ class HavePosts extends React.PureComponent {
     }
   }
 
+  /**
+   * render
+   * @return {ReactElement|null|false} render a React element.
+   */
   render() {
     const { posts } = this.state
     return posts.map(post => {
       const child = React.Children.only(this.props.children)
 
       if (child.type.templateTagName === 'the_post') {
-        return React.cloneElement(child, {
-          data: { value: post },
-          key: post.id,
-        })
+        return React.cloneElement(child, { post, key: post.id })
       } else {
         return child
       }

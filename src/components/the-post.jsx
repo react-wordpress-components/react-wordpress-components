@@ -9,9 +9,7 @@ class ThePost extends React.PureComponent {
    * @type {object}
    */
   static propTypes = {
-    data: PropTypes.shape({
-      value: PropTypes.object.isRequired,
-    }),
+    post: PropTypes.object.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -23,10 +21,15 @@ class ThePost extends React.PureComponent {
    * @type {object}
    */
   static defaultProps = {
-    data: { value: {} },
+    post: {},
     children: [],
   }
 
+  /**
+   * constructor
+   * @param  {object} props React props.
+   * @return {void}
+   */
   constructor(props) {
     super(props)
   }
@@ -48,8 +51,12 @@ class ThePost extends React.PureComponent {
       }
     })
 
+  /**
+   * render
+   * @return {ReactElement|null|false} render a React element.
+   */
   render() {
-    const fixedProps = { data: this.props.data }
+    const fixedProps = { post: this.props.post }
     return this.mapPropsToAllChildren(fixedProps)
   }
 }

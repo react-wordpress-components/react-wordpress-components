@@ -5,14 +5,12 @@ import TheTitle from './the-title'
 
 describe('test of `<TheTitle />` component', () => {
   it('should render title', () => {
-    const data = {
-      value: {
-        title: {
-          rendered: 'My Title',
-        },
+    const post = {
+      title: {
+        rendered: 'My Title',
       },
     }
-    const wrapper = shallow(<TheTitle data={ data } />)
+    const wrapper = shallow(<TheTitle post={ post } />)
     expect(wrapper.text()).to.equal('My Title')
   })
 })
