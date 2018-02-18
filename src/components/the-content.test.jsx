@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { shallow } from 'enzyme'
 import TheContent from './the-content'
 
-describe('test of `<TheContent />` component', () => {
+describe('`<TheContent />`', () => {
   it('should render content', () => {
     const post = {
       content: {

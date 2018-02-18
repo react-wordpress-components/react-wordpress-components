@@ -3,14 +3,16 @@ import { expect } from 'chai'
 import { shallow } from 'enzyme'
 import TheTitle from './the-title'
 
-describe('test of `<TheTitle />` component', () => {
+describe('`<TheTitle />`', () => {
   it('should render title', () => {
-    const post = {
-      title: {
-        rendered: 'My Title',
+    const props = {
+      post: {
+        title: {
+          rendered: 'My Title',
+        },
       },
     }
-    const wrapper = shallow(<TheTitle post={ post } />)
+    const wrapper = shallow(<TheTitle { ...props } />)
     expect(wrapper.text()).to.equal('My Title')
   })
 })

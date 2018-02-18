@@ -74,6 +74,7 @@ export class SampleApp extends React.PureComponent {
           onChange={ this.onQueryInputChange }
           onBlur={ this.onQueryInputBlur }
         />
+
         <HavePosts endpoint={ 'https://api.wp-app.org' } query={ query }>
           <ThePost>
             <header>
