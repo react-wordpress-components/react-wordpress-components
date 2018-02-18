@@ -1,6 +1,8 @@
 # WReact
 
-React based theme developmental tools.
+[![Build Status](https://travis-ci.org/wreact/wreact.svg?branch=master)](https://travis-ci.org/wreact/wreact)
+
+React based WordPress theme development library.
 
 ## demos
 
