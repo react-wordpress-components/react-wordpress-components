@@ -24,4 +24,19 @@ describe('test of `<HavePosts />` component', () => {
     expect(wrapper._root[0].attribs.class).to.equal('__test_class_name')
     expect(wrapper._root[1].attribs.class).to.equal('__test_class_name')
   })
+
+  it('should build url', () => {
+    const props = {
+      endpoint: 'http://example.com',
+      version: 'v2',
+      query: {
+        per_page: 5,
+        orderby: 'title',
+      },
+    }
+    const url = new HavePosts(props).buildUrl()
+    expect(url).to.be.equal(
+      'http://example.com/wp-json/wp/v2/posts?per_page=5&orderby=title',
+    )
+  })
 })

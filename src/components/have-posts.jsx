@@ -13,6 +13,7 @@ class HavePosts extends React.PureComponent {
   static propTypes = {
     endpoint: PropTypes.string.isRequired,
     version: PropTypes.string,
+    query: PropTypes.object,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -26,6 +27,7 @@ class HavePosts extends React.PureComponent {
   static defaultProps = {
     version: 'v2',
     children: [],
+    query: {},
   }
 
   /**
@@ -43,19 +45,19 @@ class HavePosts extends React.PureComponent {
    * @return {void}
    */
   componentWillMount() {
-    const { endpoint, version } = this.props
-    const url = `${endpoint}/wp-json/wp/${version}/posts}`
+    const url = this.buildUrl()
     fetch(url)
       .then(res => res.json())
       .then(posts => this.setState({ posts }))
   }
 
-  /**
-   * convert singular post type string to plural form
-   * @param  {string} postType given postType
-   * @return {string}          postType in plural form
-   */
-  toPlural = postType => `${postType}s`
+  buildUrl = () => {
+    const { endpoint, version, query } = this.props
+    const qs = Object.keys(query)
+      .map(key => `${key}=${query[key]}`)
+      .join('&')
+    return `${endpoint}/wp-json/wp/${version}/posts${qs ? '?' + qs : ''}`
+  }
 
   render() {
     const { posts } = this.state
