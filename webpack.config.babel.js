@@ -37,7 +37,7 @@ export default {
 
   output: {
     path: path.join(__dirname, '/dist/demo/'),
-    publicPath: '/',
+    publicPath: '',
     filename: '[name].bundle.js',
   },
 
@@ -81,12 +81,6 @@ export default {
     new webpack.DefinePlugin({
       __NODE_ENV__: JSON.stringify(nodeEnv),
       __DEBUG__: JSON.stringify(isDebugMode),
-    }),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.bundle.js',
-      chunks: ['app'],
     }),
   ],
 
