@@ -37,5 +37,6 @@ DEBUG=false \
     exit 2
   )
 
+node_modules/.bin/babel ./src/components  --out-dir ./dist
 
 echo -e "${INFO} success to build project"

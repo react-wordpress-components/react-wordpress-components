@@ -43,7 +43,7 @@ export default {
     },
 
   output: {
-    path: path.join(__dirname, '/dist/'),
+    path: path.join(__dirname, '/dist/demo/'),
     publicPath: '/',
     filename: '[name].bundle.js',
   },
@@ -98,7 +98,7 @@ export default {
   ],
 
   devServer: {
-    contentBase: path.join(__dirname, '/dist/'),
+    contentBase: path.join(__dirname, '/dist/demo/'),
     compress: true,
     host: 'localhost',
     port: 4000,
