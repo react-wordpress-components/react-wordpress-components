@@ -7,7 +7,9 @@
     "lint": "npm run lint:es",
     "lint:es": "eslint --cache --ext=jsx --ext=js .",
     "lint:prettier": "prettier-eslint \"./src/**/*.js\" \"./src/**/*.jsx\" \"./test/**/*.js\" \"./test/**/*.jsx\" --write",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "generate_deploy_key": "ssh-keygen -t rsa -b 4096 -C \"$(git config user.email)\" -f ./.travis_rsa -N ''",
+    "encrypt_deploy_key": "travis encrypt-file ./.travis_rsa --add"
   },
   "peerDependencies": {
     "react": "^16.0.0",
