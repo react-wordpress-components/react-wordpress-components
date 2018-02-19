@@ -56,8 +56,14 @@ class ThePost extends React.PureComponent {
    * @return {ReactElement|null|false} render a React element.
    */
   render() {
-    const fixedProps = { post: this.props.post }
-    return this.mapPropsToAllChildren(fixedProps)
+    const { post } = this.props
+    const fixedProps = { post }
+    const Post = () => this.mapPropsToAllChildren(fixedProps)
+    return (
+      <div id={ `post-id-${post.id}` }>
+        <Post />
+      </div>
+    )
   }
 }
 
