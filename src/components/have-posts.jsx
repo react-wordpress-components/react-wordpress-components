@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import deepEqual from 'deep-equal'
+import wait from 'src/lib/wait'
 
 /**
  * Have posts
@@ -45,7 +46,8 @@ class HavePosts extends React.PureComponent {
    */
   constructor(props) {
     super(props)
-    this.state = { posts: [] }
+    this.state = { posts: [], error: false, trying: false }
+    this.onRetryClick = this.onRetryClick.bind(this)
   }
 
   /**
@@ -55,9 +57,13 @@ class HavePosts extends React.PureComponent {
   componentWillMount() {
     const { endpoint, version, query } = this.props
     const url = HavePosts.buildUrl(endpoint, version, query)
-    fetch(url)
-      .then(res => res.json())
-      .then(posts => this.setState({ posts }))
+
+    this.setState({ ...this.state, error: false, trying: true })
+    // TODO: catch should wait `wait(100)`
+    Promise.all([fetch(url), wait(100)])
+      .then(results => results[0].json())
+      .then(posts => this.setState({ posts, error: false, trying: false }))
+      .catch(error => this.setState({ ...this.state, error, trying: false }))
   }
 
   /**
@@ -69,27 +75,50 @@ class HavePosts extends React.PureComponent {
     if (!deepEqual(this.props.query, nextProps.query)) {
       const { endpoint, version, query } = nextProps
       const url = HavePosts.buildUrl(endpoint, version, query)
-      fetch(url)
-        .then(res => res.json())
-        .then(posts => this.setState({ posts }))
+
+      this.setState({ ...this.state, error: false, trying: true })
+      // TODO: catch should wait `wait(100)`
+      Promise.all([fetch(url), wait(100)])
+        .then(results => results[0].json())
+        .then(
+          posts =>
+            console.log(posts[0]) ||
+            this.setState({ posts, error: false, trying: false }),
+        )
+        .catch(error => this.setState({ ...this.state, error, trying: false }))
     }
   }
+
+  /**
+   * handle on retry click
+   * @type {function}
+   */
+  onRetryClick = this.componentWillMount
 
   /**
    * render
    * @return {ReactElement|null|false} render a React element.
    */
   render() {
-    const { posts } = this.state
-    return posts.map(post => {
-      const child = React.Children.only(this.props.children)
+    const { posts, error, trying } = this.state
+    return trying ? (
+      <p>{'trying...'}</p>
+    ) : error ? (
+      <p>
+        {'Network error.'}
+        <button onClick={ this.onRetryClick }>{'retry'}</button>
+      </p>
+    ) : (
+      posts.map(post => {
+        const child = React.Children.only(this.props.children)
 
-      if (child.type.templateTagName === 'the_post') {
-        return React.cloneElement(child, { post, key: post.id })
-      } else {
-        return child
-      }
-    })
+        if (child.type.templateTagName === 'the_post') {
+          return React.cloneElement(child, { post, key: post.id })
+        } else {
+          return child
+        }
+      })
+    )
   }
 }
 

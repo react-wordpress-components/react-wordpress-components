@@ -4,9 +4,11 @@ global.setMockfetchReturns = resultJSON => {
     return {
       then: () => {
         return {
-          then: callback => callback(resultJSON),
+          then: callback => ({ catch: callback(resultJSON) }),
+          catch: callback => callback(resultJSON),
         }
       },
+      catch: callback => callback(resultJSON),
     }
   }
 }

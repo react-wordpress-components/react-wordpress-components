@@ -1,8 +1,10 @@
 import React from 'react'
 import HavePosts from './components/have-posts'
 import ThePost from './components/the-post'
-import TheTitle from './components/the-title'
+import TheAuthor from './components/the-author'
 import TheID from './components/the-id'
+import TheTitle from './components/the-title'
+import TheExcerpt from './components/the-excerpt'
 import TheContent from './components/the-content'
 import styled from 'styled-components'
 
@@ -82,12 +84,14 @@ export class SampleApp extends React.PureComponent {
                 <TheTitle />
               </h1>
               <p style={ { fontStyle: 'Italic' } }>
+                {'Author: '}
+                <TheAuthor />
                 {'Post No.'}
                 <TheID />
               </p>
             </header>
             <main>
-              <TheContent />
+              <TheExcerpt />
             </main>
           </ThePost>
         </HavePosts>
