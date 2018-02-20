@@ -21,7 +21,8 @@ Wreact has similar API with Template Tags:
 ## usage
 
 ```shell
-$ npm install react react-dom wreact --save
+$ npm install react react-dom --save
+$ npm install git@github.com:wreact/wreact.git --save
 ```
 
 ```jsx
