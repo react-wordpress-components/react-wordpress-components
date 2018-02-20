@@ -13,13 +13,13 @@ const isDebugMode = process.env.DEBUG === 'true'
 
 // entry points
 const devEntries = [
-  // activate HMR for React
+  // Activates HMR for React.
   'react-hot-loader/patch',
-  // bundle the client for webpack-dev-server
-  // and connect to the provided endpoint
+  // Bundles the client for webpack-dev-server
+  // and connect to the provided endpoint.
   'webpack-dev-server/client?http://localhost:4000',
-  // bundle the client for hot reloading
-  // only- means to only hot reload for successful updates
+  // Bundles the client for hot reloading
+  // only- means to only hot reload for successful updates.
   'webpack/hot/only-dev-server',
 ]
 
@@ -59,25 +59,24 @@ export default {
   },
 
   plugins: [
-    // enable HMR globally
+    // Enables HMR globally.
     new webpack.HotModuleReplacementPlugin(),
 
-    // prints more readable module names in the browser console on HMR updates
+    // Prints more readable module names in the browser console on HMR updates.
     new webpack.NamedModulesPlugin(),
 
-    // do not emit compiled assets that include errors
+    // Do not emit compiled assets that include errors.
     new webpack.NoEmitOnErrorsPlugin(),
 
-    // HTMLをコピー
+    // Copies the HTML.
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
 
-    // アセットファイルをコピー
+    // Copies the assets.
     new CopyWebpackPlugin([{ from: './public/assets', to: 'assets' }]),
 
-    // メタ情報をグローバル変数として埋め込む
-    // metaReducerに入れるので、そこから使う
+    // Loads the metadata as variables from the metaReducer.
     new webpack.DefinePlugin({
       __NODE_ENV__: JSON.stringify(nodeEnv),
       __DEBUG__: JSON.stringify(isDebugMode),
@@ -90,10 +89,10 @@ export default {
     host: 'localhost',
     port: 4000,
 
-    // respond to 404s with index.html
+    // Responds to 404s with index.html.
     historyApiFallback: true,
 
-    // enable HMR on the server
+    // Enables HMR on the server.
     hot: true,
   },
 }
