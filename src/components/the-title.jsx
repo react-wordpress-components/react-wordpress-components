@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 export const TheTitle = props => {
-  const { post: { title: { rendered: renderedTitle = '' } = {} } } = props
-  const innerHTML = { __html: renderedTitle }
+  const { post: { title: { rendered = '' } = {} } } = props
+  const innerHTML = { __html: rendered }
   // eslint-disable-next-line react/no-danger
   return <div dangerouslySetInnerHTML={ innerHTML } />
 }

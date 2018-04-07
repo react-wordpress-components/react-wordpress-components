@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import deepEqual from 'deep-equal'
-import wait from 'src/lib/wait'
+import WPAPI from 'wpapi'
 
 /**
  * Have posts
@@ -14,8 +13,6 @@ class HavePosts extends React.PureComponent {
    */
   static propTypes = {
     endpoint: PropTypes.string.isRequired,
-    version: PropTypes.string,
-    query: PropTypes.object,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -29,14 +26,6 @@ class HavePosts extends React.PureComponent {
   static defaultProps = {
     version: 'v2',
     children: [],
-    query: {},
-  }
-
-  static buildUrl = (endpoint, version, query) => {
-    const qs = Object.keys(query)
-      .map(key => `${key}=${query[key]}`)
-      .join('&')
-    return `${endpoint}/wp-json/wp/${version}/posts${qs ? '?' + qs : ''}`
   }
 
   /**
@@ -46,8 +35,9 @@ class HavePosts extends React.PureComponent {
    */
   constructor(props) {
     super(props)
-    this.state = { posts: [], error: false, trying: false }
-    this.onRetryClick = this.onRetryClick.bind(this)
+    const { endpoint } = props
+    const wp = new WPAPI({ endpoint })
+    this.state = { wp, posts: [], error: false, trying: false }
   }
 
   /**
@@ -55,65 +45,40 @@ class HavePosts extends React.PureComponent {
    * @return {void}
    */
   componentWillMount() {
-    const { endpoint, version, query } = this.props
-    const url = HavePosts.buildUrl(endpoint, version, query)
-
-    this.setState({ ...this.state, error: false, trying: true })
-    // TODO: catch should wait `wait(100)`
-    Promise.all([fetch(url), wait(100)])
-      .then(results => results[0].json())
-      .then(posts => this.setState({ posts, error: false, trying: false }))
-      .catch(error => this.setState({ ...this.state, error, trying: false }))
+    const { wp } = this.state
+    this.setState({ ...this.state, trying: true })
+    wp
+      .posts()
+      .then(posts => this.setState({ ...this.state, posts, trying: false }))
+      .catch(() => this.setState({ ...this.state, error: true, trying: false }))
   }
 
   /**
-   * componentWillReceiveProps
-   * @param  {object} nextProps React props.
-   * @return {void}
+   * shouldComponentUpdate
+   * @param  {object} nextProps next props
+   * @param  {object} nextState next state
+   * @return {boolean}          should component update
    */
-  componentWillReceiveProps(nextProps) {
-    if (!deepEqual(this.props.query, nextProps.query)) {
-      const { endpoint, version, query } = nextProps
-      const url = HavePosts.buildUrl(endpoint, version, query)
-
-      this.setState({ ...this.state, error: false, trying: true })
-      // TODO: catch should wait `wait(100)`
-      Promise.all([fetch(url), wait(100)])
-        .then(results => results[0].json())
-        .then(
-          posts =>
-            console.log(posts[0]) ||
-            this.setState({ posts, error: false, trying: false }),
-        )
-        .catch(error => this.setState({ ...this.state, error, trying: false }))
-    }
+  shouldComponentUpdate(_0, nextState) {
+    return this.state.trying !== nextState.trying
   }
-
-  /**
-   * handle on retry click
-   * @type {function}
-   */
-  onRetryClick = this.componentWillMount
 
   /**
    * render
    * @return {ReactElement|null|false} render a React element.
    */
   render() {
-    const { posts, error, trying } = this.state
+    const { wp, posts, error, trying } = this.state
+
     return trying ? (
       <p>{'trying...'}</p>
     ) : error ? (
-      <p>
-        {'Network error.'}
-        <button onClick={ this.onRetryClick }>{'retry'}</button>
-      </p>
+      <p>{'Network error.'}</p>
     ) : (
       posts.map(post => {
         const child = React.Children.only(this.props.children)
-
         if (child.type.templateTagName === 'the_post') {
-          return React.cloneElement(child, { post, key: post.id })
+          return React.cloneElement(child, { post, wp, key: post.id })
         } else {
           return child
         }
